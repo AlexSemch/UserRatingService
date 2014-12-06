@@ -13,6 +13,6 @@ namespace UserRatingService
         void PutPostEvaluation(int userId, int evaluation);
 
         [OperationContract]
-        int GetMaxRatedUser();
+        string GetMaxRatedUser();
     }
 }
