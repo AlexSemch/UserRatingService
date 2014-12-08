@@ -12,7 +12,7 @@ namespace UserRatingService
 {
     // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
-    public class UserRateervice : IUserRateService
+    public class UserRateService : IUserRateService
     {
         private readonly IUserRepository _repository = FakeRepository.GetRepository();
         public void RegisteredUser(string nick, int userId)

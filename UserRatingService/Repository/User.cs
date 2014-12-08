@@ -36,7 +36,7 @@ namespace UserRatingService.Repository
         {
             this.Id = userId;
             this.Nick = nick;
-            this.Rating = rating;
+            this._rating = rating;
         }
     }
 }

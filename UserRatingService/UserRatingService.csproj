@@ -61,15 +61,17 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UserRateervice.svc" />
-    <Content Include="Web.config" />
+    <Content Include="UserRateService.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Repository\FakeRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\User.cs" />
-    <Compile Include="UserRateervice.svc.cs">
-      <DependentUpon>UserRateervice.svc</DependentUpon>
+    <Compile Include="UserRateService.svc.cs">
+      <DependentUpon>UserRateService.svc</DependentUpon>
     </Compile>
     <Compile Include="IUserRateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
