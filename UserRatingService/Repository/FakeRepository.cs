@@ -9,47 +9,31 @@ namespace UserRatingService.Repository
     {
         private readonly List<User> _users = new List<User>();
 
-        public async Task AddUserAsync(User user)
+        public void AddUser(User user)
         {
-            try
-            {
-                await Task.Run(() =>
-                {
-                    if (_users.Any(u=>u.Id == user.Id))
-                                             throw new Exception("Пользователь с таким Ид уже существует");
-                    _users.Add(user);
-                });
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            //_users.Add(user.Id, user);
-            
+            if (_users.Any(u => u.Id == user.Id))
+                throw new ArgumentException("Пользователь с таким Ид уже существует", "user");
+            _users.Add(user);
         }
 
-        public async Task UpdateUserRateAsync(int userId, int rating)
+        public void UpdateUserRate(int userId, int rating)
         {
-            await Task.Run(() =>
-            {
-                var user = _users.FirstOrDefault(u=>u.Id == userId);
-                return user != null ? (user.Rating = rating) : 0;
-            });
+            var user = _users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+                throw new ArgumentException("Пользователь с таким идентификатором не зарегистрирован", "userId");
+            user.Rating = rating;
         }
 
-        public async Task<User> GetMaxRatedUserAsync()
+        public User GetMaxRatedUser()
         {
-            var firstOrDefault = _users.OrderBy(u => u.Rating).FirstOrDefault();
-            if (firstOrDefault != null)
-                return await Task.Run(() => firstOrDefault);
-            return null;
+            return _users.OrderBy(u => u.Rating).FirstOrDefault();
         }
 
         private static FakeRepository _instanceRepository;
 
         private FakeRepository()
         {
-            
+
         }
 
         public static IUserRepository GetRepository()

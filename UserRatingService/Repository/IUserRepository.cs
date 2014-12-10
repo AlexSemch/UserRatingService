@@ -4,9 +4,9 @@ namespace UserRatingService.Repository
 {
     public interface IUserRepository
     {
-        Task AddUserAsync(User user);
-        Task UpdateUserRateAsync(int userId, int rating);
-        Task<User> GetMaxRatedUserAsync();
+        void AddUser(User user);
+        void UpdateUserRate(int userId, int rating);
+        User GetMaxRatedUser();
 
     }
 }
