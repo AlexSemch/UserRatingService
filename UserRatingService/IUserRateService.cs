@@ -7,41 +7,27 @@ namespace UserRatingService
     [ServiceContract]
     public interface IUserRateService
     {
-        [OperationContract]
-        string GetData(int value);
-
-        [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
+        /// <summary>
+        /// Регистрация нового пользователя
+        /// </summary>
+        /// <param name="nick">Ник </param>
+        /// <param name="userId">идентифиактор </param>
         [OperationContract]
         void RegisteredUser(string nick, int userId);
 
+        /// <summary>
+        ///  Оценка поста пользователя
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="evaluation"></param>
         [OperationContract]
         void PutPostEvaluation(int userId, int evaluation);
 
+        /// <summary>
+        /// Получить ник юзера с максимальным рейтингом
+        /// </summary>
+        /// <returns></returns>
         [OperationContract]
         string GetMaxRatedUser();
-
-
-    }
-
-    [DataContract]
-    public class CompositeType
-    {
-        private bool boolValue = true;
-        private string stringValue = "Hello ";
-
-        [DataMember]
-        public bool BoolValue
-        {
-            get { return boolValue; }
-            set { boolValue = value; }
-        }
-
-        [DataMember]
-        public string StringValue
-        {
-            get { return stringValue; }
-            set { stringValue = value; }
-        }
     }
 }

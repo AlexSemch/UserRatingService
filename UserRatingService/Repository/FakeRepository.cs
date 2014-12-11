@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace UserRatingService.Repository
@@ -12,7 +13,8 @@ namespace UserRatingService.Repository
         public void AddUser(User user)
         {
             if (_users.Any(u => u.Id == user.Id))
-                throw new ArgumentException("Пользователь с таким Ид уже существует", "user");
+                throw new FaultException<ArgumentException>(new ArgumentException("", "user"),
+                    "Пользователь с таким идентификатором не зарегистрирован");
             _users.Add(user);
         }
 
@@ -20,7 +22,11 @@ namespace UserRatingService.Repository
         {
             var user = _users.FirstOrDefault(u => u.Id == userId);
             if (user == null)
-                throw new ArgumentException("Пользователь с таким идентификатором не зарегистрирован", "userId");
+            {
+                var ex = new ArgumentException("Пользователь с таким идентификатором не зарегистрирован", "userId");
+                throw new FaultException<ArgumentException>(ex,
+                    "Пользователь с таким идентификатором не зарегистрирован");
+            }
             user.Rating = rating;
         }
 

@@ -12,41 +12,40 @@ namespace UserRatingService
 {
     // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
-    //[ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
-    public class UserRateService : IUserRateService
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+    public class UserRateService : IUserRateService,IDisposable
     {
-        private readonly IUserRepository _repository = FakeRepository.GetRepository();
+        private readonly DataContext _dataContext = new DataContext("dbUser");
         public void RegisteredUser(string nick, int userId)
         {
-            _repository.AddUser(new User(userId, nick));
+            _dataContext.Users.Add(new User(userId, nick));
         }
 
         public void PutPostEvaluation(int userId, int evaluation)
         {
-            _repository.UpdateUserRate(userId, evaluation);
+            User user = _dataContext.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                user.Rating = evaluation;
+                _dataContext.SaveChanges();
+            }
+            else
+            {
+                throw new FaultException<ArgumentException>(new ArgumentException("Нет пользователя с таким идентификатором", "userId"));
+            }
         }
 
         public string GetMaxRatedUser()
         {
-            var popUser =  _repository.GetMaxRatedUser();
-            return popUser.Nick; 
-        }
-        public string GetData(int value)
-        {
-            return string.Format("You entered: {0}", value);
+            User firstOrDefault = _dataContext.Users.OrderBy(u => u.Rating).FirstOrDefault();
+            if (firstOrDefault != null)
+                return firstOrDefault.Nick;
+            return string.Empty;
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public void Dispose()
         {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
+            _dataContext.Dispose();
         }
     }
 }

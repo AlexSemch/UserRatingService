@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserRatingService.Repository
 {
@@ -9,10 +10,12 @@ namespace UserRatingService.Repository
     /// </summary>
     public class User
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Range(0, 1000000000)]
         public int Id { get; set; }
 
-        [MaxLength(20)]
+        [MinLength(1),MaxLength(20)]
         public string Nick { get; set; }
 
         private int _rating;
@@ -20,6 +23,7 @@ namespace UserRatingService.Repository
         /// <summary>
         /// Рейтинг пользователя(среднее значение всех оценко постов)
         /// </summary>
+        [Index("Ix_Rating",1)]
         [Range(-1000000000, 1000000000)]
         public int Rating
         {

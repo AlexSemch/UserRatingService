@@ -40,7 +40,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -67,9 +76,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repository\DataContext.cs" />
     <Compile Include="Repository\FakeRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Repository\MSrepository.cs" />
     <Compile Include="Repository\User.cs" />
+    <Compile Include="UnitTests\ServiceMethodTest.cs" />
+    <Compile Include="UnitTests\UserTest.cs" />
     <Compile Include="UserRateService.svc.cs">
       <DependentUpon>UserRateService.svc</DependentUpon>
     </Compile>
@@ -80,6 +93,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
